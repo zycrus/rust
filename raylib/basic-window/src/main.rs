@@ -10,3 +10,10 @@ fn main() {
         d.draw_text("Hello, world!", 12, 12, 20, Color::BLACK);
     }
 }
+
+/*
+    How to make a resizeable window
+    How to make a fixed window (size, position)
+    How to make window stay on top
+    How to edit window styles (color, border, etc)
+*/
