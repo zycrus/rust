@@ -1,0 +1,8 @@
+[package]
+name = "teto-app"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+ksni = "0.3.6"
+raylib = "6.0.0"

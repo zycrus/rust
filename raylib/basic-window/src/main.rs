@@ -4,7 +4,8 @@ fn main() {
     let (mut rl, thread) = raylib::init()
         .size(640, 480)
         .title("Window Test Project")
-        .resizable()
+        // .resizable()
+        .transparent()
         .build();
     let mut window_height: i32;
     let mut window_width: i32;
@@ -21,7 +22,7 @@ fn main() {
         let window_center_x: i32 = window_width / 2;
         let window_center_y: i32 = window_height / 2;
 
-        d.clear_background(Color::WHITE);
+        d.clear_background(Color::BLANK);
 
         // Draw perpendicular lines to indicate center
         d.draw_line(window_center_x, 0, window_center_x, window_height, Color::CYAN);
@@ -51,8 +52,7 @@ fn main() {
     }
 }
 
-// How to make a resizeable window
-
+// How to make a resizeable window: add .resizable() to init()
 // How to make a fixed window (size, position)
 // How to make window stay on top
 // How to edit window styles (color, border, etc)
