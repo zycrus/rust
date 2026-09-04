@@ -22,10 +22,8 @@ impl ksni::Tray for TetoTray {
 }
 
 fn main() {
-    // 1. Spawn System Tray Icon background service
     let _handle = TetoTray.spawn();
 
-    // 2. Init Raylib Window
     const SCREEN_WIDTH: i32 = 240;
     const SCREEN_HEIGHT: i32 = 240;
     let (mut rl, thread) = raylib::init()
@@ -36,7 +34,6 @@ fn main() {
         .topmost()
         .build();
 
-    // 3. Hide Raylib window from Taskbar
     let _ = std::process::Command::new("xdotool")
         .args([
             "search", "--onlyvisible", "--name", "Teeeeeeto",
