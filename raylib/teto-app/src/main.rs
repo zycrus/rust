@@ -1,46 +1,15 @@
 use raylib::prelude::*;
-use ksni::TrayMethods; // Import the trait to get .spawn()
-
-struct TetoTray;
-
-impl ksni::Tray for TetoTray {
-    fn icon_name(&self) -> String {
-        "user-available".into()
-    }
-
-    fn id(&self) -> String {
-        "teeeeeeto-pet".into()
-    }
-
-    fn title(&self) -> String {
-        "Teto Desktop Pet".into()
-    }
-
-    fn category(&self) -> ksni::Category {
-        ksni::Category::ApplicationStatus
-    }
-}
 
 fn main() {
-    let _handle = TetoTray.spawn();
-
     const SCREEN_WIDTH: i32 = 240;
     const SCREEN_HEIGHT: i32 = 240;
     let (mut rl, thread) = raylib::init()
         .size(SCREEN_WIDTH, SCREEN_HEIGHT)
-        .title("Teeeeeeto")
+        .title("teeeeeeto")
         .transparent()
         .undecorated()
         .topmost()
         .build();
-
-    let _ = std::process::Command::new("xdotool")
-        .args([
-            "search", "--onlyvisible", "--name", "Teeeeeeto",
-            "windowstate", "--add", "SKIP_TASKBAR",
-            "windowstate", "--add", "SKIP_PAGER"
-        ])
-        .status();
 
     let monitor: i32 = 0;
     let monitor_width: i32 = core::window::get_monitor_width(monitor);
@@ -49,7 +18,7 @@ fn main() {
     let initial_pos_x: i32 = monitor_width - SCREEN_WIDTH;
     let initial_pos_y: i32 = monitor_height - SCREEN_HEIGHT;
     rl.set_window_position(initial_pos_x, initial_pos_y);
-    rl.set_target_fps(30);
+    rl.set_target_fps(20);
 
     let teto_img = rl.load_texture(&thread, "./assets/teto1.png").unwrap();
 
@@ -57,9 +26,9 @@ fn main() {
     let mut drag_offset: Vector2 = Vector2::zero();
 
     while !rl.window_should_close() {
+        let mouse_pos: Vector2 = rl.get_mouse_position();
+        
         if rl.is_mouse_button_pressed(MouseButton::MOUSE_BUTTON_LEFT) {
-            let mouse_pos: Vector2 = rl.get_mouse_position();
-
             if mouse_pos.x >= 0.0 && mouse_pos.x <= SCREEN_WIDTH as f32 && mouse_pos.y >= 0.0 && mouse_pos.y <= SCREEN_HEIGHT as f32 {
                 is_dragging = true;
                 drag_offset = mouse_pos;
@@ -67,17 +36,17 @@ fn main() {
         }
 
         if is_dragging {
-            if rl.is_mouse_button_down(MouseButton::MOUSE_BUTTON_LEFT) {
-                let win_pos: Vector2 = rl.get_window_position();
-                let mouse_pos: Vector2 = rl.get_mouse_position();
-
-                let new_win_x: f32 = win_pos.x + mouse_pos.x - drag_offset.x;
-                let new_win_y: f32 = win_pos.y + mouse_pos.y - drag_offset.y;
-
-                rl.set_window_position(new_win_x as i32, new_win_y as i32);
-            } else {
+            if rl.is_mouse_button_up(MouseButton::MOUSE_BUTTON_LEFT){
                 is_dragging = false;
             }
+
+            let win_pos: Vector2 = rl.get_window_position();
+
+            let new_win_x: f32 = win_pos.x + mouse_pos.x - drag_offset.x;
+            let new_win_y: f32 = win_pos.y + mouse_pos.y - drag_offset.y;
+
+            println!("x:{} -> {}, y:{} -> {}, target: {} {}", win_pos.x, new_win_x, win_pos.y, new_win_y, new_win_x, new_win_y);
+            rl.set_window_position(new_win_x as i32, new_win_y as i32);
         }
 
         let mut d = rl.begin_drawing(&thread);
