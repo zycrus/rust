@@ -5,4 +5,5 @@ edition = "2024"
 
 [dependencies]
 ksni = "0.3.6"
+pulsectl-rs = "0.3.2"
 raylib = "6.0.0"
